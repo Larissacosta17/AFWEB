@@ -1,0 +1,61 @@
+
+
+<h1>Finanças</h1>
+
+<hr>
+
+<section>
+  <h2>Nova Transação</h2>
+
+  <form (ngSubmit)="criar()">
+    <div>
+      <label>Nome da Transação:</label> <br>
+      <input [(ngModel)]="nome" name="nome" required />
+    </div>
+
+    <div>
+      <label>Categoria:</label> <br>
+      <select [(ngModel)]="categoria" name="categoria" required>
+        <option value="">Selecione...</option>
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saida</option>
+      </select>
+    </div>
+
+<div>
+<label>Valor:</label> <br>
+<input type="number" [(ngModel)]="valor" name="valor" required />
+</div>
+
+<button type="submit" [disabled]="salvando">Salvar</button>
+</form>
+
+@if (erro) { <p style="color: red;">{{ erro }}</p> }
+
+</section>
+
+<hr>
+
+<section>
+<h2>Lista de movimentações</h2>
+<button (click)="carregar()" [disabled]="carregando">Carregar</button>
+
+@if (carregando) {
+    <p>Carregando...</p>
+} @else {
+    @if (financas.length === 0) {
+        <p>Nenhuma transação.</p>
+    } @else {
+        <ul>
+            @for (a of financas; track a._id) {
+              <li class="{{ a.categoria }}">
+                <strong> {{a.nome}} </strong> - R$ {{a.valor}} -
+                    @if (a.categoria === 'entrada') {
+                    Entrada } @else {
+                    Saida}    
+              </li>
+            }
+        </ul>
+    }
+}
+</section>
